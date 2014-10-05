@@ -3,7 +3,7 @@ all: .image-stamp
 @JBOSS_FUSE_ZIP_BASENAME@: @JBOSS_FUSE_ZIP@
 	cp @JBOSS_FUSE_ZIP@ .
 
-.image-stamp: Dockerfile @JBOSS_FUSE_ZIP_BASENAME@
+.image-stamp: Dockerfile @JBOSS_FUSE_ZIP_BASENAME@ greenfx-configure-fuse.sh
 	docker build -t="green/greenfx-fuse" .
 	touch .image-stamp
 

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Configure using the interactive FUSE shell....
+
+cat > f.exp <<EOF
+set send_slow {2 0.1}
+
+spawn ./jboss-fuse/bin/fuse
+expect -re "JBossFuse.*> "
+send -s "features:install war\r"
+expect -re "JBossFuse.*> "
+send -s "features:install mq-web-console\r"
+expect -re "JBossFuse.*> "
+send -s "osgi:shutdown\r"
+expect "(yes/no):"
+send -s "yes\r"
+EOF
+
+expect f.exp
+
+sed -i jboss-fuse/etc/org.apache.activemq.webconsole.cfg \
+    -e 's/jmx.password=admin/jmx.password=@JBOSS_FUSE_ADMIN_PASSWORD@/'
+

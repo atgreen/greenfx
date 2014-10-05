@@ -19,7 +19,7 @@ AC_SUBST(JBOSS_FUSE_ADMIN_PASSWORD)
 
 AC_CONFIG_FILES([Makefile \
 		 db/Makefile db/Dockerfile \
-		 fuse/Makefile fuse/Dockerfile \
+		 fuse/Makefile fuse/Dockerfile fuse/greenfx-configure-fuse.sh \
 		 bot/Makefile bot/Dockerfile])
 AC_OUTPUT
 

@@ -8,6 +8,7 @@ Makefile
 config
 db/Dockerfile
 fuse/Dockerfile
+fuse/greenfx-configure-fuse.sh
 bot/Dockerfile
 quicklisp.tar.gz
 jboss*.zip
