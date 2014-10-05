@@ -1,0 +1,14 @@
+*~
+.image-stamp
+autom4te.cache
+config.log
+config.status
+configure
+Makefile
+config
+db/Dockerfile
+fuse/Dockerfile
+bot/Dockerfile
+quicklisp.tar.gz
+jboss*.zip
+

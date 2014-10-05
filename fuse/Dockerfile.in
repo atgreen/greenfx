@@ -1,0 +1,18 @@
+FROM green/greenfx-base
+
+MAINTAINER green@spindazzle.org
+
+RUN yum install -y java-1.6.0-openjdk unzip && yum clean all
+RUN useradd fuse
+ADD @JBOSS_FUSE_ZIP_BASENAME@ /home/fuse/@JBOSS_FUSE_ZIP_BASENAME@
+RUN su - fuse -c "(unzip *.zip && rm @JBOSS_FUSE_ZIP_BASENAME@ && ln -s jboss-fuse* jboss-fuse)"
+RUN su - fuse -c 'echo "admin=@JBOSS_FUSE_ADMIN_PASSWORD@,admin" >> /home/fuse/jboss-fuse/etc/users.properties'
+
+EXPOSE 8181
+
+CMD su - fuse -c 'jboss-fuse/bin/fuse'
+
+
+
+
+

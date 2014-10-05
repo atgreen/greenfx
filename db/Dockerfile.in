@@ -1,0 +1,17 @@
+FROM green/greenfx-base
+
+MAINTAINER green@spindazzle.org
+
+ADD bootstrap.sh /root/bootstrap.sh
+RUN bash /root/bootstrap.sh
+
+RUN su - postgres -c '/usr/bin/initdb -D /var/lib/pgsql/data' 
+RUN echo "host all all 172.17.42.1/32 trust" >> /var/lib/pgsql/data/pg_hba.conf
+RUN echo "listen_addresses='*'" >> /var/lib/pgsql/data/postgresql.conf
+
+RUN su - postgres -c '/usr/bin/postgres --single -D /var/lib/pgsql/data' <<< "CREATE USER bot WITH SUPERUSER PASSWORD '@BOT_POSTGRESQL_PASSWORD@';"
+RUN su - postgres -c '/usr/bin/postgres --single -D /var/lib/pgsql/data' <<< "CREATE DATABASE fxdb OWNER bot;"
+
+EXPOSE 5432
+
+CMD su - postgres -c '/usr/bin/postgres -D /var/lib/pgsql/data'

@@ -1,0 +1,11 @@
+IMAGE := `docker images -a | grep greenfx-bot | tr -s ' ' | cut -f 3 -d " "`
+
+all: .image-stamp
+
+.image-stamp: Dockerfile bootstrap.sh
+	tar cfz quicklisp.tar.gz ../quicklisp
+	docker build -t="green/greenfx-bot" .
+	touch .image-stamp
+
+clean:
+	rm -rf *~ .image-stamp

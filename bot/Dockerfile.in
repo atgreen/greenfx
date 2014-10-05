@@ -1,0 +1,14 @@
+FROM green/greenfx-base
+
+MAINTAINER green@spindazzle.org
+
+ADD bootstrap.sh /root/bootstrap.sh
+RUN bash /root/bootstrap.sh
+
+RUN useradd bot
+ADD quicklisp.tar.gz /home/bot
+ADD sbclrc /home/bot/.sbclrc
+
+ADD bot.lisp /home/bot/bot.lisp
+
+CMD su - bot -c "sbcl --userinit /home/bot/.sbclrc --load /home/bot/bot.lisp"

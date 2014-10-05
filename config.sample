@@ -1,0 +1,21 @@
+# =======================================================
+# Configuration Settings for greenfx
+# =======================================================
+
+# What's the IP address of the application that will
+# be connecting to the PostgreSQL DB?
+
+APP_IP_ADDRESS=[docker host here]
+
+# What's bot's postgresql database password?
+
+BOT_POSTGRESQL_PASSWORD=[password here]
+
+# Where is the JBoss FUSE distribution
+
+JBOSS_FUSE_ZIP=[zip file path here]
+
+# What is the admin password for JBoss FUSE
+
+JBOSS_FUSE_ADMIN_PASSWORD=[password here]
+
