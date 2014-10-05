@@ -1,0 +1,11 @@
+Just a playground for packaging services using Linux containers.
+
+Make sure you have RHEL7, access to the RHEL7 base docker image, and
+the JBoss FUSE full distro...
+
+- run autoconf
+- cp config.sample config
+- edit config
+- run configure and make
+
+AG
