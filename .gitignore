@@ -4,7 +4,10 @@ autom4te.cache
 config.log
 config.status
 configure
-Makefile
+./Makefile
+bot/Makefile
+db/Makefile
+fuse/Makefile
 config
 db/Dockerfile
 fuse/Dockerfile
