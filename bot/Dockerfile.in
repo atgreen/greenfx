@@ -11,4 +11,4 @@ ADD sbclrc /home/bot/.sbclrc
 
 ADD bot.lisp /home/bot/bot.lisp
 
-CMD su - bot -c "sbcl --userinit /home/bot/.sbclrc --load /home/bot/bot.lisp"
+CMD rsyslogd && su - bot -c "sbcl --userinit /home/bot/.sbclrc --load /home/bot/bot.lisp"

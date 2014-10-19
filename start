@@ -1,0 +1,12 @@
+#!/bin/sh
+
+docker run -d -p 514:514 -p 514:514/udp -v `pwd`/logs:/var/log green/greenfx-log
+sleep 2
+
+docker run -d -p 5432:5432 green/greenfx-db
+
+# Fuse requires a tty or else it exits right away...
+docker run -t -d -p 61613:61613 -p 8161:8161 -p 8181:8181 green/greenfx-fuse
+
+echo A-MQ web interface: http://localhost:8181/activemqweb
+echo Container logs:     tail -f logs/*

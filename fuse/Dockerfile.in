@@ -7,6 +7,7 @@ RUN useradd fuse
 ADD @JBOSS_FUSE_ZIP_BASENAME@ /home/fuse/@JBOSS_FUSE_ZIP_BASENAME@
 RUN su - fuse -c "(unzip *.zip && rm @JBOSS_FUSE_ZIP_BASENAME@ && ln -s jboss-fuse* jboss-fuse)"
 
+ENV JAVA_HOME /usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
 ADD greenfx-configure-fuse.sh /home/fuse/greenfx-configure-fuse.sh
 
 RUN su - fuse -c 'echo "" >> /home/fuse/jboss-fuse/etc/users.properties && echo "admin=@JBOSS_FUSE_ADMIN_PASSWORD@,admin" >> /home/fuse/jboss-fuse/etc/users.properties'
@@ -15,4 +16,6 @@ RUN su - fuse -c 'bash ./greenfx-configure-fuse.sh'
 
 EXPOSE 8181
 
-CMD su - fuse -c 'jboss-fuse/bin/fuse'
+CMD rsyslogd && su - fuse -c 'jboss-fuse/bin/fuse'
+
+

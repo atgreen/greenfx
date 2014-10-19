@@ -9,7 +9,7 @@ yum install -y glibc-common
 # make that available everywhere
 yum install -y rsyslog
 
-echo "*.* @@172.24.1.213:514" >> /etc/rsyslog.conf
+echo "*.* @@@RSYSLOG_IP_ADDRESS@:514" >> /etc/rsyslog.conf
 
 sed 's/$ModLoad imjournal/#$ModLoad imjournal/' -i /etc/rsyslog.conf
 sed 's/$OmitLocalLogging on/$OmitLocalLogging off/' -i /etc/rsyslog.conf

@@ -19,3 +19,6 @@ JBOSS_FUSE_ZIP=[zip file path here]
 
 JBOSS_FUSE_ADMIN_PASSWORD=[password here]
 
+# What's the IP address of our central rsyslog server
+
+RSYSLOG_IP_ADDRESS=[ip here]

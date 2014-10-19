@@ -14,4 +14,4 @@ RUN su - postgres -c '/usr/bin/postgres --single -D /var/lib/pgsql/data' <<< "CR
 
 EXPOSE 5432
 
-CMD su - postgres -c '/usr/bin/postgres -D /var/lib/pgsql/data'
+CMD rsyslogd && su - postgres -c '/usr/bin/postgres -D /var/lib/pgsql/data'

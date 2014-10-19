@@ -16,10 +16,17 @@ AC_SUBST(BOT_POSTGRESQL_PASSWORD)
 AC_SUBST(JBOSS_FUSE_ZIP)
 AC_SUBST(JBOSS_FUSE_ZIP_BASENAME)
 AC_SUBST(JBOSS_FUSE_ADMIN_PASSWORD)
+AC_SUBST(RSYSLOG_IP_ADDRESS)
 
 AC_CONFIG_FILES([Makefile \
+		 base/bootstrap.sh \
+		 log/Makefile log/Dockerfile \
 		 db/Makefile db/Dockerfile \
 		 fuse/Makefile fuse/Dockerfile fuse/greenfx-configure-fuse.sh \
 		 bot/Makefile bot/Dockerfile])
 AC_OUTPUT
+
+if ! test -d logs; then
+   mkdir logs;
+fi
 

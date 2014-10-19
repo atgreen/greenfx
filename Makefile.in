@@ -1,12 +1,13 @@
 all:
 	(cd base; make all)
+	(cd log; make all)
 	(cd db; make all)
 	(cd fuse; make all)
 	(cd bot; make all)
 
 clean:
 	(cd base; make clean)
-	(cd db; make clean)
+	(cd log; make clean)
 	(cd fuse; make clean)
 	(cd bot; make clean)
 	rm -rf *~
