@@ -5,7 +5,7 @@ MAINTAINER green@spindazzle.org
 RUN yum install -y java-1.6.0-openjdk unzip expect && yum clean all
 RUN useradd fuse
 ADD @JBOSS_FUSE_ZIP_BASENAME@ /home/fuse/@JBOSS_FUSE_ZIP_BASENAME@
-RUN su - fuse -c "(unzip *.zip && rm @JBOSS_FUSE_ZIP_BASENAME@ && ln -s jboss-fuse* jboss-fuse)"
+RUN su - fuse -c "(unzip *.zip && rm *.zip && ln -s jboss-fuse* jboss-fuse)"
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.6.0-openjdk-1.6.0.0.x86_64
 ADD greenfx-configure-fuse.sh /home/fuse/greenfx-configure-fuse.sh

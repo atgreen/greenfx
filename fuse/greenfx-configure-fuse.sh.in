@@ -18,8 +18,8 @@ EOF
 
 expect f.exp
 
-sed -i ./jboss-fuse/etc/org.apache.activemq.webconsole.cfg \
-    -e 's/jmx.password=admin/jmx.password=@JBOSS_FUSE_ADMIN_PASSWORD@/'
+#sed -i ./jboss-fuse/etc/org.apache.activemq.webconsole.cfg \
+#    -e 's/jmx.password=admin/jmx.password=@JBOSS_FUSE_ADMIN_PASSWORD@/'
 
 cat > run <<EOF
 ./jboss-fuse/bin/fuse &

@@ -1,0 +1,17 @@
+FROM green/greenfx-base
+
+MAINTAINER green@spindazzle.org
+
+# Strip the last line from rsyslog.conf in the base image, because
+# we're not forwarding logs from here...
+RUN head -n -1 /etc/rsyslog.conf > /tmp/r && mv /tmp/r /etc/rsyslog.conf
+
+# Open up ports and await logs...
+RUN sed 's/#$ModLoad imudp/$ModLoad imudp/' -i /etc/rsyslog.conf
+RUN sed 's/#$UDPServerRun 514/$UDPServerRun 514/' -i /etc/rsyslog.conf
+RUN sed 's/#$ModLoad imtcp/$ModLoad imtcp/' -i /etc/rsyslog.conf
+RUN sed 's/#$InputTCPServerRun 514/$InputTCPServerRun 514/' -i /etc/rsyslog.conf
+
+EXPOSE 514/tcp 514/udp
+
+CMD /usr/sbin/rsyslogd && tail -f /var/log/*
