@@ -1,0 +1,8 @@
+all: .image-stamp
+
+.image-stamp: Dockerfile
+	docker build -t="green/greenfx-log" .
+	touch .image-stamp
+
+clean:
+	rm -rf *~ .image-stamp
