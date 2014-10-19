@@ -7,5 +7,6 @@ the JBoss FUSE full distro...
 - cp config.sample config
 - edit config
 - run configure and make
+- run the 'start' script
 
 AG
