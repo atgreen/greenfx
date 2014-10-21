@@ -17,13 +17,17 @@ AC_SUBST(JBOSS_FUSE_ZIP)
 AC_SUBST(JBOSS_FUSE_ZIP_BASENAME)
 AC_SUBST(JBOSS_FUSE_ADMIN_PASSWORD)
 AC_SUBST(RSYSLOG_IP_ADDRESS)
+AC_SUBST(OANDA_STREAM_DOMAIN)
+AC_SUBST(OANDA_ACCESS_TOKEN)
+AC_SUBST(OANDA_ACCOUNT_ID)
 
 AC_CONFIG_FILES([Makefile \
 		 base/bootstrap.sh \
-		 log/Makefile log/Dockerfile \
+		 bot/Makefile bot/Dockerfile \
 		 db/Makefile db/Dockerfile \
 		 fuse/Makefile fuse/Dockerfile fuse/greenfx-configure-fuse.sh \
-		 bot/Makefile bot/Dockerfile])
+		 log/Makefile log/Dockerfile \
+		 ticks-oanda/config.h])
 AC_OUTPUT
 
 if ! test -d logs; then

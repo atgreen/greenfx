@@ -22,3 +22,16 @@ JBOSS_FUSE_ADMIN_PASSWORD=[password here]
 # What's the IP address of our central rsyslog server
 
 RSYSLOG_IP_ADDRESS=[ip here]
+
+# What Oanda domain will we query for tick streams (eg. "http://stream-sandbox.oanda.com")
+
+OANDA_STREAM_DOMAIN="http://stream-sandbox.oanda.com"
+
+# Our Oanda API access token
+
+OANDA_ACCESS_TOKEN=[access token string here]
+
+# Our Oanda account ID
+
+OANDA_ACCOUNT_ID=[account ID string here]
+

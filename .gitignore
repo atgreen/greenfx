@@ -1,4 +1,5 @@
 *~
+*.rpm
 ./Makefile
 .image-stamp
 autom4te.cache
@@ -18,4 +19,5 @@ jboss*.zip
 log/Dockerfile
 log/Makefile
 logs
+ticks-oanda/config.h
 quicklisp.tar.gz

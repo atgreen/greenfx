@@ -1,4 +1,15 @@
-Just a playground for packaging services using Linux containers.
+ --------------------------------------------------------------------------
+  _____                    ________   __
+ |  __ \                   |  ___\ \ / /
+ | |  \/_ __ ___  ___ _ __ | |_   \ V /          Open Source Tools for
+ | | __| '__/ _ \/ _ \ '_ \|  _|  /   \           Algorithmic Currency
+ | |_\ \ | |  __/  __/ | | | |   / /^\ \           Exchange Trading
+  \____/_|  \___|\___|_| |_\_|   \/   \/
+
+ --------------------------------------------------------------------------
+
+This is really just a playground for packaging services using Linux
+containers.
 
 Make sure you have RHEL7, access to the RHEL7 base docker image, and
 the JBoss FUSE full distro...
@@ -7,6 +18,16 @@ the JBoss FUSE full distro...
 - cp config.sample config
 - edit config
 - run configure and make
-- run the 'start' script
 
-AG
+The 'start' script will run a number of 'microservice' docker
+containers:
+
+1. greenfx-log         - the rsyslogd server. collects all logs
+2. greenfx-fuse        - Red Hat JBoss Fuse A-MQ broker
+3. greenfx-db-ticks    - influxdb for recording tick data
+4. greenfx-db          - postgresql for general persistent data
+5. greenfx-ticks-oanda - feeds OANDA tick data to A-MQ bus
+6. greenfx-rec-ticks   - records ticks from A-MQ to db-ticks
+7. greenfx-bot         - the trading bot
+
+Anthony Green <green@spindazzle.org>
