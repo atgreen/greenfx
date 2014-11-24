@@ -2,8 +2,8 @@
 //  _____                    ________   __
 // |  __ \                   |  ___\ \ / /
 // | |  \/_ __ ___  ___ _ __ | |_   \ V /          Open Source Tools for
-// | | __| '__/ _ \/ _ \ '_ \|  _|  /   \           Algorithmic Currency
-// | |_\ \ | |  __/  __/ | | | |   / /^\ \           Exchange Trading
+// | | __| '__/ _ \/ _ \ '_ \|  _|  /   \            Automated Algorithmic
+// | |_\ \ | |  __/  __/ | | | |   / /^\ \             Currency Trading
 //  \____/_|  \___|\___|_| |_\_|   \/   \/
 //
 // --------------------------------------------------------------------------
@@ -25,6 +25,7 @@
 #include <sys/types.h>
 
 #include <curl/curl.h>
+#include <json/json.h>
 
 #include <activemq/library/ActiveMQCPP.h>
 #include <activemq/core/ActiveMQConnectionFactory.h>
@@ -42,12 +43,57 @@ static const char *accounts = OANDA_ACCOUNT_ID;
 static Session *session;
 static MessageProducer *producer;
 
+struct MemoryStruct {
+  char *memory;
+  size_t size;
+};
+
+static void fatal (const char *msg)
+{
+  syslog (LOG_ERR, msg);
+  exit (1);
+}
+
 static size_t httpCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
-  syslog (LOG_INFO, "%s", (char*)contents); 
+  struct MemoryStruct *mem = (struct MemoryStruct *) userp;
+  mem->memory = (char *) realloc (mem->memory, mem->size + (size * nmemb) + 1);
+  if (mem->memory == NULL)
+    fatal ("Out of memory");
+  
+  memcpy (&(mem->memory[mem->size]), contents, size * nmemb);
+  mem->size += size * nmemb;
+  mem->memory[mem->size] = 0;
+  int length;
+  char *eol = strchr(mem->memory, '\r');
 
-  std::auto_ptr<TextMessage> message(session->createTextMessage((char *) contents));
-  producer->send(message.get());
+  while (eol)
+    {
+      length = eol - mem->memory;
+      *eol = 0;
+
+      json_object *jobj = json_tokener_parse (mem->memory);
+      
+      if (json_object_object_get_ex (jobj, "tick", NULL))
+	{
+	  syslog (LOG_NOTICE, "%s", mem->memory); 
+	  std::auto_ptr<TextMessage> message(session->createTextMessage(mem->memory));
+	  producer->send(message.get());
+	}
+      else
+	{
+	  if (! json_object_object_get_ex (jobj, "heartbeat", NULL))
+	    syslog (LOG_ERR, "Unrecognized data from OANDA: %s", mem->memory);
+	}
+      eol++; length++;
+      while (*eol == '\n' || *eol == '\r')
+	{ eol++; length++; }
+      
+      mem->size -= length;
+      memcpy (mem->memory, eol, mem->size);
+
+      eol = strchr(mem->memory, '\r');
+    }
 
   return size * nmemb;
 }
@@ -80,6 +126,8 @@ int main(void)
     connection = connectionFactory->createConnection(ACTIVEMQ_USERNAME,
 						     ACTIVEMQ_PASSWORD);
     connection->start();
+
+    syslog (LOG_NOTICE, "A");
       
     session = connection->createSession(Session::AUTO_ACKNOWLEDGE);
     destination = session->createTopic("OANDA.TICK");
@@ -102,11 +150,18 @@ int main(void)
 	       domain, accounts) >= 100)
     exit(1);
 
+  syslog (LOG_NOTICE, ">> %s", url);
+
+  struct MemoryStruct mchunk;
+  mchunk.memory = (char *) malloc(1);
+  mchunk.size = 0;
+
   curl_global_init(CURL_GLOBAL_ALL);
 
   curl_handle = curl_easy_init();
   curl_easy_setopt(curl_handle, CURLOPT_URL, url);
   curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, httpCallback);
+  curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void*)&mchunk);
   chunk = curl_slist_append(chunk, authHeader);
   res = curl_easy_setopt(curl_handle, CURLOPT_HTTPHEADER, chunk);
   res = curl_easy_perform(curl_handle);

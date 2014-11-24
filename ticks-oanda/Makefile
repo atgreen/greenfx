@@ -8,4 +8,4 @@ clean:
 	rm -rf *~ .image-stamp
 
 ticks-oanda: main.cc config.h
-	g++ -g3 -o ticks-oanda main.cc `pkg-config activemq-cpp --cflags` -lcurl `pkg-config activemq-cpp --libs`
+	g++ -O3 -g -o ticks-oanda main.cc `pkg-config activemq-cpp --cflags` -lcurl `pkg-config activemq-cpp --libs` -ljson-c

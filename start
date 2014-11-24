@@ -1,15 +1,27 @@
 #!/bin/sh
 
 docker run -d -p 514:514 -p 514:514/udp -v `pwd`/logs:/var/log green/greenfx-log
-sleep 2
+sleep 5
 
 # Fuse requires a tty or else it exits right away...
 docker run -t -d -p 61616:61616 -p 8161:8161 -p 8181:8181 green/greenfx-fuse
+sleep 5
 
-docker run -d -p 8083:8083 -p 8086:8086 green/greenfx-db-ticks
+docker run -d -p 8083:8083 -p 8086:8086 -v `pwd`/data:/opt/influxdb/shared/data green/greenfx-db-ticks
+sleep 5
+
 docker run -d -p 5432:5432 green/greenfx-db
-docker run -d green/greenfx-ticks-oanda
+sleep 5
 
-echo A-MQ web interface:  http://localhost:8181/activemqweb
+docker run -d green/greenfx-ticks-oanda
+sleep 5
+
+docker run -d green/greenfx-rec-ticks
+sleep 5
+
+echo ================================================================
+echo A-MQ web interface:  http://localhost:8181
 echo InfluxDB web interface:  http://localhost:8083
 echo View container logs:  tail -f logs/*
+echo ================================================================
+tail -f logs/*

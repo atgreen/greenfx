@@ -20,4 +20,5 @@ log/Dockerfile
 log/Makefile
 logs
 ticks-oanda/config.h
+ticks-oanda/ticks-oanda
 quicklisp.tar.gz
